@@ -9,15 +9,10 @@ extension MCPeerID {
     private static func fetchExisting(with config: MultipeerConfiguration) -> MCPeerID? {
         guard let data = config.defaults.data(forKey: Self.defaultsKey) else { return nil }
 
-        do {
-            let peer = try NSKeyedUnarchiver.unarchivedObject(ofClass: MCPeerID.self, from: data)
+        guard let peer = NSKeyedUnarchiver.unarchiveObject(with: data) as? MCPeerID else { return nil }
+        guard peer.displayName == config.peerName else { return nil }
 
-            guard peer?.displayName == config.peerName else { return nil }
-
-            return peer
-        } catch {
-            return nil
-        }
+        return peer
     }
 
     static func fetchOrCreate(with config: MultipeerConfiguration) -> MCPeerID {

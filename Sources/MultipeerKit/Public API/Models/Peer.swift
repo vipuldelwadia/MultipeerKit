@@ -29,7 +29,7 @@ extension Peer {
          and hashing the resulting data is a good way to generate an unique identifier
          that will be always the same for the same peer ID.
          */
-        let peerData = try NSKeyedArchiver.archivedData(withRootObject: peer, requiringSecureCoding: true)
+        let peerData = NSKeyedArchiver.archivedData(withRootObject: peer)
         self.id = peerData.idHash
 
         self.underlyingPeer = peer
