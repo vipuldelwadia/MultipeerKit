@@ -170,6 +170,10 @@ extension MultipeerConnection: MCSessionDelegate {
 
 extension MultipeerConnection: MCNearbyServiceBrowserDelegate {
 
+    func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
+        os_log("Failed to start browsing for peers: %{public}@", log: log, type: .error, String(describing: error))
+    }
+
     func browser(_ browser: MCNearbyServiceBrowser, foundPeer peerID: MCPeerID, withDiscoveryInfo info: [String : String]?) {
         os_log("%{public}@", log: log, type: .debug, #function)
 
@@ -219,6 +223,10 @@ extension MultipeerConnection: MCNearbyServiceBrowserDelegate {
 // MARK: - Advertiser delegate
 
 extension MultipeerConnection: MCNearbyServiceAdvertiserDelegate {
+
+    func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didNotStartAdvertisingPeer error: Error) {
+        os_log("Failed to advertise peer: %{public}@", log: log, type: .error, String(describing: error))
+    }
 
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         os_log("%{public}@", log: log, type: .debug, #function)
